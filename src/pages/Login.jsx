@@ -21,11 +21,11 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (auth) {
-      navigate("/dashboard");
-    }
-  }, [auth, navigate]);
+  // useEffect(() => {
+  //   if (auth) {
+  //     navigate("/dashboard");
+  //   }
+  // }, [auth, navigate]);
 
   async function submitHandler(e) {
     e.preventDefault();

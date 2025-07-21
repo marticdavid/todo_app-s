@@ -24,6 +24,9 @@ export const StoreProvider = ({ children }) => {
 
   const apiUrl = import.meta.env.VITE_BACKEND_URL_TODO;
 
+
+  console.log(apiUrl)
+
   function isTokenExpired(token) {
     if (!token) return true;
     try {

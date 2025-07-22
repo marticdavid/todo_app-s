@@ -136,42 +136,50 @@ function Dashboard() {
       } else {
         toast.error(data.message || "Failed to update todo");
       }
+      setIsLoading(false);
     } catch (error) {
       console.error("Update Error:", error);
       toast.error("Something went wrong while updating");
-    } finally {
-      setIsLoading(false);
-    }
+    } 
   }
   
 
   async function submitTodoHandler() {
     try {
       setIsLoading(true);
+
       const response = await fetch(`${apiUrl}/todo/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ title: title, description: description }),
+        body: JSON.stringify({
+          title,
+          description,
+        }),
       });
 
       const data = await response.json();
+
       if (!response.ok) {
-        toast.error("Unable to add a Todo, try again later");
-        setIsLoading(false);
+        const message =
+          data?.message || "Unable to add a Todo, try again later";
+        toast.error(message);
         return;
       }
 
-      toast.success(data.message);
-      fetchTodos();
-      clearForm();
-      setIsLoading(false);
+      toast.success(data.message || "Todo created successfully");
+      fetchTodos(); // refresh todos
+      clearForm(); // reset form fields
     } catch (error) {
+      console.error("Submit Todo Error:", error);
+      toast.error("Something went wrong while creating your Todo");
+    } finally {
       setIsLoading(false);
     }
   }
+  
 
   return (
     <div className="container mx-auto mt-20 shadow-lg">
